@@ -17,7 +17,7 @@ app.post('/api/tts', async (req, res) => {
   try {
     const crosswordData = generateCrossword(pairs);
     const crossword = await Crossword.create(crosswordData);
-    res.json({ id: crossword._id });
+    res.status(201).json({ id: crossword._id });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -39,4 +39,8 @@ app.get('/api/ttsToday', async (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+if (require.main === module) {
+  app.listen(port, () => console.log(`Server running on port ${port}`));
+}
+
+module.exports = app;
